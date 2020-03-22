@@ -8,12 +8,24 @@
                 </div>
              </div>
             @endif
-            @if (session('error'))
-              <div class="col-md-9">
+
+                      @if (session('success'))
+             <div class="col-md-9">
+                <div class="alert alert-success text-dark">
+                    {{ session('success') }}
+                </div>
+             </div>
+            @endif
+            
+            @if ($errors->any())
+             @foreach ($errors->all() as $error)
+                 <div class="col-md-9">
                 <div class="alert alert-danger text-dark">
-                    {{ session('error') }}
+                    {{ $error }}
                 </div>
               </div>
+             @endforeach
+              
             @endif
   </div>
 

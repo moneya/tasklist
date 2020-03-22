@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Project;
 use Redirect;
 use Illuminate\Http\Request;
+use Validator;
 
 class ProjectController extends Controller
 {

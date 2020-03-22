@@ -6,6 +6,7 @@ use App\Task;
 use App\Project;
 use Illuminate\Http\Request;
 use Redirect;
+use Validator;
 
 class TaskController extends Controller
 {
@@ -18,6 +19,19 @@ class TaskController extends Controller
 
         public function store(Request $request,$id)
         {
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                
+            ]);
+    
+            if ($validator->fails()) {
+                return      back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
+
+
  
         $task = new Task();
         $task->name = request("name");
@@ -36,7 +50,9 @@ class TaskController extends Controller
         public function reorder(Request $request,$id)
         {
             $project = Project::findOrfail($id);
-            $tasks = Task::where('project_id',$id)->get();
+            $tasks = Task::where('project_id',$project->id)->get();
+
+            
 
         foreach ($tasks as $task) {
             $task->timestamps = false; // To disable update_at field updation
@@ -54,22 +70,6 @@ class TaskController extends Controller
 
         public function all(Request $request){
             
-            if($request->ajax())
-            {
-                if($request->projects)
-                {
-                    $tasks = Task::where('project_id',$request->projects)->orderBy("priority", "ASC")->get();
-                    return view("partials.tasks", compact("tasks"));
-                }
-               
-                if($request->projects === 0)
-                {
-                    $tasks = Task::orderBy("priority", "ASC")->get();
-                    return view("partials.tasks", compact("tasks"));
-                }
-                // return $tasks;
-                
-            }
             $projects = Project::orderBy("created_at", "DESC")->get();
             $tasks = Task::orderBy("priority", "ASC")->get();
             return view("tasks", compact("tasks","projects"));
