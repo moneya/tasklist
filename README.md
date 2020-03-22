@@ -17,10 +17,11 @@ In your Console type
 php artisan migrate
 Thats all
 
-##Issues
+<b> #Issues</b>
+<br>
 The view is scattered or not rendered well
 
-##solution 
+#solution 
 
 The library used in this project is pulled from a CDN
-Connecting to the internet will solve it.
+Connecting to the internet will resolve it.
